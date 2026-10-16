@@ -1,4 +1,4 @@
-package inventario;
+package Productos;
 // define que atributos o datos tiene cada articulo o producto de la tienda
 public class Producto {
 
