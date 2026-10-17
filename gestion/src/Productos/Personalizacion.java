@@ -25,19 +25,27 @@ public enum kanban{
     ESPERANDO_APROBACION,
     APROBADO;
 }
-private tipoTecnica tipoTecnica;
-private tipoContenido tipoContenido;
-private kanban kanban;
+private tipoTecnica tecnica;
+private tipoContenido contenido;
+private kanban estadoDiseno;
+private String tema;
+private double costoInicial;
 
-public Personalizacion(tipoTecnica tipoTecnica, tipoContenido tipoContenido,String temaContenido){
-this.tipoTecnica = tipoTecnica;
-this.tipoContenido = tipoContenido;
-this.temaContenido = temaContenido;
-
-this.estadodiseno = kanban.PENDIENTE;
-
+public Personalizacion(tipoTecnica tecnica, tipoContenido contenido ,String tema){
+this.tecnica = tecnica;
+this.contenido = contenido;
+this.tema = tema;
+this.estadoDiseno = kanban.PENDIENTE;
+this.costoInicial= calcularCostosIniciales(this.tecnica, this.contenido);
 }
-
+private double calcularCostosIniciales(tipoTecnica tecnica,tipoContenido contenido){
+   double costo = 0;
+    if(tecnica == tipoTecnica.DTF){return costo += 3000;}
+    else if(tecnica == tipoTecnica.SUBLIMACION){return costo += 2000;}
+    else if(tecnica == tipoTecnica.BORDADO){return costo += 10000;}
+    else if (tecnica == tipoTecnica.SERIGRAFIA){return costo += 1500;}
+    return costo;
+}
 
 
 }
