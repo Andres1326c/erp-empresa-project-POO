@@ -29,6 +29,14 @@ private tipoTecnica tipoTecnica;
 private tipoContenido tipoContenido;
 private kanban kanban;
 
+public Personalizacion(tipoTecnica tipoTecnica, tipoContenido tipoContenido,String temaContenido){
+this.tipoTecnica = tipoTecnica;
+this.tipoContenido = tipoContenido;
+this.temaContenido = temaContenido;
+
+this.estadodiseno = kanban.PENDIENTE;
+
+}
 
 
 
