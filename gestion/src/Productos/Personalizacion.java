@@ -1,10 +1,5 @@
 package Productos;
-//aAqui vamos a hacer como tal la interfaz con la que interatua el cliente
-// toca poner: que registre que tipo de personalizacion quire, por ejemplo dtf, sublimacion etc
-//  Que personalizacion como tal quiere, diseno, mensje, letras
-// debe calcular que costo adicional tiene el diseno y los materiales de personalizacion
-// a futuro quiza para las imagenes de referencia o que envie el cliente
-// a futuro quiza un kanban de estado de diseno donde se ponga en que fase del diseno va y cuano o que falta
+
 public class Personalizacion {
 
     public enum tipoTecnica {
@@ -32,6 +27,8 @@ public class Personalizacion {
         PEQUENO, MEDIANO, GRANDE;
 
     }
+public enum servicioDiseno {LISTO_DE_ClIENTE, MODIFICACION, DISENO_COMPLETO;
+}
 
     private tipoTecnica tecnica;
     private tipoContenido contenido;
@@ -39,17 +36,24 @@ public class Personalizacion {
     private String tema;
     private double costo;
     private TamanoPreferido tamano;
+    private servicioDiseno diseno;
+    private String archivoCliente;
+private static final double costoDisenoCompleto = 20000;
+private static final double costoModificarDiseno = 8000;
 
-    public Personalizacion(tipoTecnica tecnica, tipoContenido contenido, String tema, TamanoPreferido tamano) {
+    public Personalizacion(tipoTecnica tecnica, tipoContenido contenido, String tema, TamanoPreferido tamano, servicioDiseno diseno, String archivoCliente)  {
         this.tecnica = tecnica;
         this.contenido = contenido;
         this.tema = tema;
         this.estadoDiseno = kanban.PENDIENTE;
         this.tamano = tamano;
-        this.costo = calcularCostosIniciales(this.tecnica, this.contenido, this.tamano);
+        this.diseno = diseno;
+        this.archivoCliente = archivoCliente;
+        this.costo = costoTotal();
+
     }
 
-    private double calcularCostosIniciales(tipoTecnica tecnica, tipoContenido contenido, TamanoPreferido tamano) {
+    private double calcularCostoTecnica() {
         double costo = 0;
         if (tecnica == tipoTecnica.DTF) {
             if (tamano == TamanoPreferido.PEQUENO) {
@@ -96,19 +100,63 @@ public class Personalizacion {
     }
     public void establecerTecnica(tipoTecnica tecnica){
         this.tecnica = tecnica;
-        this.costo = calcularCostosIniciales(this.tecnica, this.contenido, this.tamano);
+        this.costo = costoTotal();
 
     }
     public void establecerTamano(TamanoPreferido tamano){
         this.tamano = tamano;
-        this.costo = calcularCostosIniciales(this.tecnica, this.contenido, this.tamano);
+        this.costo = costoTotal();
 
     }
-    public tipoContenido obtenerCOntenido(){return contenido;}
-    public String obtenerTema(){return tema;}
-    public kanban obtenerEstadoDiseno(){
+
+    public void establecerEstadoDiseno(kanban estado){this.estadoDiseno = estado;}
+private double costoDiseno(){
+
+        if(diseno == servicioDiseno.DISENO_COMPLETO) {
+            return costoDisenoCompleto;
+        }else if(diseno == servicioDiseno.MODIFICACION){
+            return costoModificarDiseno;
+        }
+        return 0;
+}
+private double costoTotal(){
+        return calcularCostoTecnica() + costoDiseno();
+}
+public void cambioKanban(){
+       if(estadoDiseno == kanban.PENDIENTE) {
+           if (diseno == servicioDiseno.LISTO_DE_ClIENTE) {
+               estadoDiseno = kanban.APROBADO;
+           } else {
+               estadoDiseno = kanban.EN_DISENO;
+           }}
+else if (estadoDiseno == kanban.EN_DISENO) {
+estadoDiseno = kanban.ESPERANDO_APROBACION;
+           } else if (estadoDiseno == kanban.APROBADO){
+
+       }else if (estadoDiseno == kanban.ESPERANDO_APROBACION){
+    estadoDiseno = kanban.APROBADO;
+       }
+}
+
+    public tipoTecnica getTecnica() {
+        return tecnica;
+    }
+    public double getCosto() {
+        return costo;
+    }
+    public String getTema() {
+        return tema;
+    }
+    public TamanoPreferido getTamano() {
+        return tamano;
+    }
+    public servicioDiseno getDiseno() {
+        return diseno;
+    }
+    public kanban getEstadoDiseno() {
         return estadoDiseno;
     }
-    public TamanoPreferido obtenerTamano(){return tamano;}
-    public void establecerEstadoDiseno(kanban estado){this.estadoDiseno = estado;}
+    public String getArchivoCliente() {
+        return archivoCliente;
+    }
 }
