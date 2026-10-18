@@ -15,7 +15,6 @@ public class Cierre {
         pedidoMayor = 0;
     }
 
-    // Variables acumuladoras
     public void registrar(Pedido pedido) {
         totalPedidos++;
         totalUnidades = totalUnidades + pedido.getCantidad();
