@@ -1,3 +1,8 @@
+package Entidades;
+import Productos.*;
+import Inventario.Inventario;
+import Productos.Personalizacion;
+
 import java.util.Scanner;
 
 public class Tienda {
@@ -61,7 +66,7 @@ public class Tienda {
         System.out.println("================================");
     }
 
-   
+
     private void registrarProducto() {
         if (inventario.hayEspacio()) {
             String nombre = leerTexto("Nombre del producto: ");
@@ -182,19 +187,9 @@ public class Tienda {
     }
 
     private Personalizacion crearPersonalizacion() {
-        String tecnica = elegirTecnica();
-        String tamano = elegirTamanoDiseno();
-        String contenido = elegirContenido();
-        boolean servicio = leerSiNo("¿Requiere servicio de diseño? (+$10000) (s/n): ");
-
-        String descripcion = leerTexto("Descripción o texto del diseño (máx. 40 caracteres): ");
-        while (descripcion.length() > 40) {
-            System.out.println("La descripción no puede superar los 40 caracteres.");
-            descripcion = leerTexto("Descripción o texto del diseño (máx. 40 caracteres): ");
-        }
-
-        return new Personalizacion(tecnica, tamano, contenido, servicio, descripcion);
+        return Personalizacion.crearDesdeConsola(sc);
     }
+
 
     private Empaque crearEmpaque() {
         String material = elegirMaterial();
